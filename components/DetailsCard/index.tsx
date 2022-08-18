@@ -1,24 +1,26 @@
 import { Box, Flex, Spacer, Text } from '@chakra-ui/react';
 
-export const DetailsCard = () => {
+export const DetailsCard = ({ clientDetails }: { clientDetails: any }) => {
   return (
     <Flex
       bg={'white'}
       p={'2rem'}
       borderRadius={'10px'}
       boxShadow={'lg'}
-      mb={'-5rem'}
-      minW={'80%'}
+      w={'80%'}
+      m={'-5rem auto 0 auto'}
       h={'150px'}
       justifyContent={'space-around'}
       alignItems={'center'}
+      zIndex={2}
+      position='relative'
     >
       <Box>
         <Text fontSize={'14px'} color={'brand.800'}>
           IP ADDRESS
         </Text>
         <Text fontWeight={700} fontSize={'1.2rem'}>
-          192.168.91.12
+          {clientDetails?.ip}
         </Text>
       </Box>
       <Spacer bg={'lightgrey'} h={'100%'} maxW={'2px'} />
@@ -27,7 +29,8 @@ export const DetailsCard = () => {
           LOCATION
         </Text>
         <Text fontWeight={700} fontSize={'1.2rem'}>
-          Brooklyn, NY 10001
+          {/* Brooklyn, NY 10001 */}
+          {`${clientDetails?.location.city}, ${clientDetails?.location.region} ${clientDetails?.location.postalCode}`}
         </Text>
       </Box>
       <Spacer bg={'lightgrey'} h={'100%'} maxW={'2px'} />
@@ -36,7 +39,8 @@ export const DetailsCard = () => {
           TIMEZONE
         </Text>
         <Text fontWeight={700} fontSize={'1.2rem'}>
-          UTC -05:00
+          UTC{' '}
+          {clientDetails?.location.timezone}
         </Text>
       </Box>
       <Spacer bg={'lightgrey'} h={'100%'} maxW={'2px'} />
@@ -45,7 +49,7 @@ export const DetailsCard = () => {
           ISP
         </Text>
         <Text fontWeight={700} fontSize={'1.2rem'}>
-          SpaceX Starlink
+          {clientDetails?.isp}
         </Text>
       </Box>
     </Flex>

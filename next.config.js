@@ -9,5 +9,6 @@ module.exports = {
   reactStrictMode: true,
   env: {
     GEO_IPIFY_API_KEY: process.env.GEO_IPIFY_API_KEY,
+    MAPS_API_KEY: process.env.MAPS_API_KEY
   }
 }
