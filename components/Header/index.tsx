@@ -34,7 +34,7 @@ export const Header = ({ clientDetails }: { clientDetails: any }) => {
         py={'2rem'}
         gap={'2rem'}
         alignItems={'center'}
-        minH={'280px'}
+        minH={{ base: '380px', md:'280px'}}
         bgImage={'/pattern-bg.png'}
         bgPos={'center'}
         bgRepeat={'no-repeat'}
@@ -48,7 +48,7 @@ export const Header = ({ clientDetails }: { clientDetails: any }) => {
         >
           IP Address Tracker
         </Text>
-        <FormControl maxW={{ base: '100%', md: '50%' }} display={'flex'}>
+        <FormControl maxW={{ base: '80%', md: '50%' }} display={'flex'}>
           <Input
             type='text'
             placeholder='Search for any IP address or domain'
@@ -88,16 +88,17 @@ const MapBox = ({ coordinates }: { coordinates: any }) => {
   const containerStyle = {
     width: '100vw',
     height: '100vh',
-    margin: '-5rem 0 0 0',
   };
   console.log(coordinates);
   return (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={coordinates}
-      zoom={10}
-    >
-      <MarkerF position={coordinates} />
-    </GoogleMap>
+    <Box bg={'teal.100'} mt={{base: '-21.2rem', md: '-5rem'}}>
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={coordinates}
+        zoom={10}
+      >
+        <MarkerF position={coordinates} />
+      </GoogleMap>
+    </Box>
   );
 };
