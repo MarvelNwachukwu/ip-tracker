@@ -1,5 +1,4 @@
 import { Box, Flex, FormControl, Input, Text } from '@chakra-ui/react';
-import React from 'react';
 import { DetailsCard } from '../DetailsCard';
 import {
   GoogleMap,
@@ -7,25 +6,49 @@ import {
   MarkerF,
   useLoadScript,
 } from '@react-google-maps/api';
+import { useEffect, useMemo, useState } from 'react';
 
 export const Header = ({ clientDetails }: { clientDetails: any }) => {
-  const [userIpAddress, updateUserIpAddress] = React.useState<any>(
-    clientDetails.ip
+  const [isLoading, setLoading] = useState(false)
+  const [data, setData] = useState(clientDetails)
+
+  const [userIpAddress, updateUserIpAddress] = useState<any>(
+    data.ip
   );
 
   const center = {
-    lat: clientDetails.location.lat,
-    lng: clientDetails.location.lng,
+    lat: data.location.lat,
+    lng: data.location.lng,
   };
 
-  const center2 = React.useMemo(() => {
-    lat: clientDetails.location.lat;
-    lng: clientDetails.location.lng;
-  }, [clientDetails.location.lat, clientDetails.location.lng]);
+  const center2 = useMemo(() => {
+    lat: data.location.lat;
+    lng: data.location.lng;
+  }, [data.location.lat, data.location.lng]);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: `${process.env.MAPS_API_KEY}`,
   });
+
+  const IPDetails = async (ipAddress: string) => {
+    const res = await fetch(
+      `https://geo.ipify.org/api/v2/country,city?apiKey=${process.env.GEO_IPIFY_API_KEY}&ipAddress=${ipAddress}`
+    );
+    const data = await res.json();
+  }
+
+  useEffect(() => {
+    if (isLoading) {
+      fetch(`https://geo.ipify.org/api/v2/country,city?apiKey=${process.env.GEO_IPIFY_API_KEY}&ipAddress=${userIpAddress}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setData(data)
+          setLoading(false)
+          console.log(data)
+        })
+    }
+  }, [isLoading, userIpAddress])
+
 
   return (
     <>
@@ -39,6 +62,7 @@ export const Header = ({ clientDetails }: { clientDetails: any }) => {
         bgPos={'center'}
         bgRepeat={'no-repeat'}
         bgSize={'cover'}
+        position={"relative"}
       >
         <Text
           textColor={'white'}
@@ -61,6 +85,7 @@ export const Header = ({ clientDetails }: { clientDetails: any }) => {
             onChange={(input) => {
               updateUserIpAddress(input.target.value);
             }}
+            enterKeyHint={'enter'}
           />
           <Box
             h={'40px'}
@@ -72,13 +97,13 @@ export const Header = ({ clientDetails }: { clientDetails: any }) => {
             bgSize={'20%'}
             borderRightRadius={'10px'}
             cursor={'pointer'}
-            // onClick={() => {
-            //   getIPdetails('102.89.33.96');
-            // }}
+            onClick={() => {
+              setLoading(true)
+            }}
           />
         </FormControl>
       </Flex>
-      <DetailsCard clientDetails={clientDetails} />
+      <DetailsCard clientDetails={data} />
       {!isLoaded ? <Box>Loading...</Box> : <MapBox coordinates={center} />}
     </>
   );
@@ -89,7 +114,7 @@ const MapBox = ({ coordinates }: { coordinates: any }) => {
     width: '100vw',
     height: '100vh',
   };
-  console.log(coordinates);
+  console.log(coordinates)
   return (
     <Box bg={'teal.100'} mt={{base: '-21.2rem', md: '-5rem'}}>
       <GoogleMap

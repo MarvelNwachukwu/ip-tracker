@@ -6,7 +6,7 @@ import { Header } from '../components/Header';
 
 export const getStaticProps = async () => {
   const res = await fetch(
-    `https://geo.ipify.org/api/v2/country,city?apiKey=at_422TmiGDYaSVNLT8v8o3deZRXHiXo`
+    `https://geo.ipify.org/api/v2/country,city?apiKey=${process.env.GEO_IPIFY_API_KEY}`
   );
   const data = await res.json();
 
@@ -17,18 +17,15 @@ export const getStaticProps = async () => {
   };
 };
 
-const Home: NextPage = ({ clientDetails }) => {
-  console.log(process.env.MAPS_API_KEY)
+type clientDetailsType = {
+  clientDetails: any
+}
+
+const Home = ({ clientDetails }: clientDetailsType) => {
   return (
     <Box fontFamily={`'Rubik', sans-serif`}>
       <PageHead title={'IP Address Tracker'} />
       <Header clientDetails={clientDetails} />
-      <Script
-        src={'https://unpkg.com/leaflet@1.8.0/dist/leaflet.js'}
-        integrity={
-          'sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=='
-        }
-      ></Script>
       {/* <Script async defer src={`https://maps.googleapis.com/maps/api/js?key=${process.env.MAPS_API_KEY}&callback=initMap`}></Script> */}
     </Box>
   );

@@ -8,7 +8,7 @@ export const DetailsCard = ({ clientDetails }: { clientDetails: any }) => {
       borderRadius={'10px'}
       boxShadow={'lg'}
       w={'80%'}
-      m={{ base: '-15rem auto 0 auto',md:'-5rem auto 0 auto'}}
+      m={{ base: '-5rem auto 0 auto',md:'-5rem auto 0 auto'}}
       h={{ base: 'max-content', md: '150px' }}
       justifyContent={'space-around'}
       alignItems={'center'}
