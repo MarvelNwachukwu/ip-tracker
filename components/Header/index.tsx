@@ -2,11 +2,10 @@ import { Box, Flex, FormControl, Input, Text } from '@chakra-ui/react';
 import { DetailsCard } from '../DetailsCard';
 import {
   GoogleMap,
-  Marker,
   MarkerF,
   useLoadScript,
 } from '@react-google-maps/api';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const Header = ({ clientDetails }: { clientDetails: any }) => {
   const [isLoading, setLoading] = useState(false)
@@ -21,21 +20,9 @@ export const Header = ({ clientDetails }: { clientDetails: any }) => {
     lng: data.location.lng,
   };
 
-  const center2 = useMemo(() => {
-    lat: data.location.lat;
-    lng: data.location.lng;
-  }, [data.location.lat, data.location.lng]);
-
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: `${process.env.MAPS_API_KEY}`,
   });
-
-  const IPDetails = async (ipAddress: string) => {
-    const res = await fetch(
-      `https://geo.ipify.org/api/v2/country,city?apiKey=${process.env.GEO_IPIFY_API_KEY}&ipAddress=${ipAddress}`
-    );
-    const data = await res.json();
-  }
 
   useEffect(() => {
     if (isLoading) {
@@ -56,7 +43,7 @@ export const Header = ({ clientDetails }: { clientDetails: any }) => {
         py={'2rem'}
         gap={'2rem'}
         alignItems={'center'}
-        minH={{ base: '380px', md:'280px'}}
+        minH={{ base: '280px', md:'280px'}}
         bgImage={'/pattern-bg.png'}
         bgPos={'center'}
         bgRepeat={'no-repeat'}
@@ -101,6 +88,7 @@ export const Header = ({ clientDetails }: { clientDetails: any }) => {
             }}
           />
         </FormControl>
+        
       </Flex>
       <DetailsCard clientDetails={data} />
       {!isLoaded ? <Box>Loading...</Box> : <MapBox coordinates={center} />}
