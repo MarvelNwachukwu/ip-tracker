@@ -44,7 +44,6 @@ export const Header = ({ clientDetails }: { clientDetails: any }) => {
         .then((data) => {
           setData(data)
           setLoading(false)
-          console.log(data)
         })
     }
   }, [isLoading, userIpAddress])
@@ -114,7 +113,6 @@ const MapBox = ({ coordinates }: { coordinates: any }) => {
     width: '100vw',
     height: '100vh',
   };
-  console.log(coordinates)
   return (
     <Box bg={'teal.100'} mt={{base: '-21.2rem', md: '-5rem'}}>
       <GoogleMap
